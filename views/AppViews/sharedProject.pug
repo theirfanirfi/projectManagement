@@ -1,0 +1,193 @@
+include header.pug
+style.
+  .panel-body::-webkit-scrollbar {
+  width: 0.5em;
+  border-radius:16px;
+  }
+  .panel-body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  .panel-body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  }
+   .bargraph {
+ list-style: none;
+ padding-top: 20px;
+ width:560px;
+ }
+
+ ul.bargraph li {
+ height: 12px;
+ color: white;
+ text-align: left;
+ font-style: italic;
+ font-weight:bolder;
+ font-size: 14px;
+ line-height: 12px;
+ padding: 0px 20px;
+ margin-bottom: 5px;
+ }
+ ul.bargraph li.reddeep {
+ background: #ED1C24;
+ width:100%;
+ }
+ ul.bargraph li.redpink {
+ background: #EF465B;
+ width:100%;
+ }
+ ul.bargraph li.pink {
+ background: #E55A6B;
+ width:100%;
+ }
+ ul.bargraph li.orangered {
+ background: #E28159;
+ width:100%;
+ }
+ ul.bargraph li.orange {
+ background: #F99C1C;
+ width:100%;
+ }
+ ul.bargraph li.yellow {
+ background: #F4D41E;
+ width:100%;
+ }
+ ul.bargraph li.green {
+ background: #97B546;
+ width:100%;
+ }
+ ul.bargraph li.greenbright {
+ background: #36B669;
+ width:100%;
+ }
+ ul.bargraph li.greenblue {
+ background: #42BDA5;
+ width:100%;
+ }
+ ul.bargraph li.blue {
+ background: #00AEEF;
+ width:100%;
+ }
+ ul.bargraph li.xaxis {
+ background: url(../images/x-axis.jpg);
+ height: 49px;
+ }
+
+.container(style='margin-top:12px;')
+    .row
+        .col-md-6
+            h1= 'Project: '+project.project_title  
+
+
+
+
+.container
+  .row
+    .col-md-6
+      ul.bargraph
+        li.blue= "Tasks: "+ tasks.length +"/"+inct.length+ " completed"
+        li.green= "Requirements: "+reqs.length+"/"+cr.length+ " completed"
+        li.greenbright= "Locations: "+locations.length
+        li.greenblue= "People: "+ people.length
+        li.blue= "Resources: "+resources.length
+        li.xaxis
+
+
+
+
+.container
+  .row
+    .col-lg-4
+      .panel.panel-green
+        .panel-heading
+          | Requirements 
+          span(style='font-size:11px;')= reqs.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+          - reqs.forEach(function(item){
+            p(style='padding:2px;')= item.req_title
+
+            span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                hr
+          - })
+
+    .col-lg-4
+      .panel.panel-primary
+        .panel-heading
+          | Tasks 
+          span(style='font-size:11px;')= tasks.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - tasks.forEach(function(item){
+                p(style='padding:2px;')= item.task_title
+
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                hr
+             - })
+
+    .col-lg-4
+      .panel.panel-info
+        .panel-heading
+          | Locations 
+          span(style='font-size:11px;')= locations.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - locations.forEach(function(item){
+                p(style='padding:2px;')= item.location_title
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                hr
+             - })
+
+
+.container
+  .row
+    .col-lg-4
+      .panel.panel-green
+        .panel-heading
+          | People 
+          span(style='font-size:11px;')= people.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+          - people.forEach(function(item){
+            p(style='padding:2px;')= "Name: "+item.name
+            p(style='padding:2px;')= "Task Assigned: "+item.task_title
+
+            span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                 hr
+          - })
+
+    .col-lg-4
+      .panel.panel-primary
+        .panel-heading
+          | Resources 
+          span(style='font-size:11px;')= resources.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - resources.forEach(function(item){
+                p(style='padding:2px;')= item.resource_title
+
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+                 
+                 hr
+             - })
+
+include footer.pug

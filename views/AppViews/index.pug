@@ -1,0 +1,26 @@
+include header.pug
+
+.container
+  .row
+  h2 My Projects
+- messages = getMessages();
+- if(messages.msg){
+.alert.alert-info(role='alert' style='width:80%;margin-left:24px;')=messages.msg
+- }
+
+- if(messages.errors){
+- messages.errors.forEach(function(item){
+.alert.alert-danger(role='alert' style='width:80%;margin-left:24px;')=item.msg
+- });
+- }
+
+- pros.forEach(function(item) {
+   a(href='/users/project/'+item._id)
+      .col-lg-4
+        .well
+          h4= item.project_title
+          p= item.project_description
+          a(href='/users/deleteProject/'+item._id style='float:right;color:red;' class='glyphicon glyphicon-trash')
+
+- })
+include footer.pug

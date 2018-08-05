@@ -1,0 +1,260 @@
+include header.pug
+style.
+  .panel-body::-webkit-scrollbar {
+  width: 0.5em;
+  border-radius:16px;
+  }
+  .panel-body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  .panel-body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  }
+   .bargraph {
+ list-style: none;
+ padding-top: 20px;
+ width:560px;
+ }
+
+ ul.bargraph li {
+ height: 12px;
+ color: white;
+ text-align: left;
+ font-style: italic;
+ font-weight:bolder;
+ font-size: 14px;
+ line-height: 12px;
+ padding: 0px 20px;
+ margin-bottom: 5px;
+ }
+ ul.bargraph li.reddeep {
+ background: #ED1C24;
+ width:100%;
+ }
+ ul.bargraph li.redpink {
+ background: #EF465B;
+ width:100%;
+ }
+ ul.bargraph li.pink {
+ background: #E55A6B;
+ width:100%;
+ }
+ ul.bargraph li.orangered {
+ background: #E28159;
+ width:100%;
+ }
+ ul.bargraph li.orange {
+ background: #F99C1C;
+ width:100%;
+ }
+ ul.bargraph li.yellow {
+ background: #F4D41E;
+ width:100%;
+ }
+ ul.bargraph li.green {
+ background: #97B546;
+ width:100%;
+ }
+ ul.bargraph li.greenbright {
+ background: #36B669;
+ width:100%;
+ }
+ ul.bargraph li.greenblue {
+ background: #42BDA5;
+ width:100%;
+ }
+ ul.bargraph li.blue {
+ background: #00AEEF;
+ width:100%;
+ }
+ ul.bargraph li.xaxis {
+ background: url(../images/x-axis.jpg);
+ height: 49px;
+ }
+
+- messages = getMessages();
+- if(messages.msg){
+.alert.alert-info(role='alert' style='width:80%;margin-left:24px;')=messages.msg
+- }
+
+- if(messages.errors){
+- messages.errors.forEach(function(item){
+.alert.alert-danger(role='alert' style='width:80%;margin-left:24px;')=item.msg
+- });
+- }
+
+.container(style='margin-top:12px;')
+    .row
+        .col-md-6
+            h1= 'Project: '+project.project_title
+        .col-md-6
+            - if(shared > 0 ){
+            a.btn.btn-link(href='/users/unshare/'+project_id style='float:right;')
+              i.glyphicon.glyphicon-remove(style='font-size:14px;')  unshare
+
+            - } else {
+            a.btn.btn-link(href='/users/share/'+project_id style='float:right;') 
+              i.glyphicon.glyphicon-share(style='font-size:14px;')  Share
+            - }    
+
+
+.container
+  .row
+    .col-md-6
+      ul.bargraph
+        li.blue= "Tasks: "+ inct.length +"/"+tasks.length+ " completed"
+        li.green= "Requirements: "+cr.length+"/"+reqs.length+ " completed"
+        li.greenbright= "Locations: "+locations.length
+        li.greenblue= "People: "+ people.length
+        li.blue= "Resources: "+resources.length
+        li.xaxis
+
+
+
+
+.container
+  .row
+    .col-lg-4
+      .panel.panel-green
+        .panel-heading
+          | Requirements 
+          span(style='font-size:11px;')= reqs.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+          - reqs.forEach(function(item){
+            p(style='padding:2px;')= item.req_title
+
+            span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                 a(href='/users/projectReqDelete/'+item._id style='font-size:11px;color:red;margin:4px;' class='glyphicon glyphicon-remove' title='Delete the task.')
+
+                 - if(item.isCompleted == 0)
+                     a(href='/users/projectReqComplete/'+item._id style='font-size:11px;margin:4px;' class='glyphicon glyphicon-ok' title='Mark the task as complete.')
+                 - else
+                     span.glyphicon.glyphicon-ok(style='color:green' title='Requirements Handled.')
+
+                hr
+          - })
+        .panel-footer
+          | Add New Requirement
+          form(action='/users/addRequirement' method='post')
+           input.form-control(type='text' name='req_title' style='margin:4px;')
+           input.form-control(type='hidden' name='project_id' value=project_id style='margin:4px;')
+           button.btn-sm.btn-success(type='submit') Add Requirement
+    .col-lg-4
+      .panel.panel-primary
+        .panel-heading
+          | Tasks 
+          span(style='font-size:11px;')= tasks.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - tasks.forEach(function(item){
+                p(style='padding:2px;')= item.task_title
+
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+                 a(href='/users/projectDelete/'+item._id style='font-size:11px;color:red;margin:4px;' class='glyphicon glyphicon-remove' title='Delete the task.')
+
+                 - if(item.isCompleted == 0)
+                     a(href='/users/projectTaskComplete/'+item._id style='font-size:11px;margin:4px;' class='glyphicon glyphicon-ok' title='Mark the task as complete.')
+                 - else
+                     span.glyphicon.glyphicon-ok(style='color:green' title='Task is completed.')
+
+                hr
+             - })
+        .panel-footer
+          | Add New Task
+          form(action='/users/addtask' method='post')
+           input.form-control(type='text' name='task_title' style='margin:4px;')
+           input.form-control(type='hidden' name='project_id' value=project_id style='margin:4px;')
+           button.btn.btn-primary(type='submit') Add Task
+    .col-lg-4
+      .panel.panel-info
+        .panel-heading
+          | Locations 
+          span(style='font-size:11px;')= locations.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - locations.forEach(function(item){
+                p(style='padding:2px;')= item.location_title
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+                 a(href='/users/DeleteLocation/'+item._id style='font-size:11px;color:red;margin:4px;' class='glyphicon glyphicon-remove' title='Delete Location')
+                hr
+             - })
+        .panel-footer
+          | Add New Location
+          form(action='/users/addlocation' method='post')
+           input.form-control(type='text' name='location_title' style='margin:4px;')
+           input.form-control(type='hidden' name='project_id' value=project_id style='margin:4px;')
+           button.btn.btn-primary(type='submit') Add Location
+
+
+
+.container
+  .row
+    .col-lg-4
+      .panel.panel-green
+        .panel-heading
+          | People 
+          span(style='font-size:11px;')= people.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+          - people.forEach(function(item){
+            p(style='padding:2px;')= "Name: "+item.name
+            p(style='padding:2px;')= "Task Assigned: "+item.task_title
+
+            span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+
+                 a(href='/users/deletePerson/'+item._id style='font-size:11px;color:red;margin:4px;' class='glyphicon glyphicon-remove' title='Delete ')
+                hr
+          - })
+        .panel-footer
+          | Add Person to the Project
+          form(action='/users/addPeople' method='post')
+           p Persone Name
+           input.form-control(type='text' name='person_name' style='margin:4px;')
+           input.form-control(type='hidden' name='project_id' value=project_id style='margin:4px;')
+           p Assign Task
+           select.form-control(name='task_title')
+            - tasks.forEach(function(item){
+               option(value=item.task_title)= item.task_title
+
+            -})
+           button.btn-sm.btn-success(type='submit') Add
+    .col-lg-4
+      .panel.panel-primary
+        .panel-heading
+          | Resources 
+          span(style='font-size:11px;')= resources.length+ ' in Project'
+        .panel-body(style='height: 300px;z-index:2;overflow:scroll;')
+             - resources.forEach(function(item){
+                p(style='padding:2px;')= item.resource_title
+
+                span Added on: 
+                - var str = item.created_at
+                - var strr = str.toString().substring(0,16)
+                span= strr
+                 br
+                 a(href='/users/deleteResource/'+item._id style='font-size:11px;color:red;margin:4px;' class='glyphicon glyphicon-remove' title='Delete Resource.')
+
+                hr
+             - })
+        .panel-footer
+          | Add Resource
+          form(action='/users/addResource' method='post')
+           input.form-control(type='text' name='resource_title' style='margin:4px;')
+           input.form-control(type='hidden' name='project_id' value=project_id style='margin:4px;')
+           button.btn.btn-primary(type='submit') Add Resource
+include footer.pug

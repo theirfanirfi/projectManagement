@@ -1,0 +1,15 @@
+include header.pug
+
+.container
+  .row
+  h2 Shared Projects
+- pros.forEach(function(item) {
+   a(href='/users/sharedproject/'+item.project_id)
+      .col-lg-4
+        .well
+          h4= item.project_title
+          p= item.project_description
+          a(href='#' style='float:right;' class='')= 'shared by: '+item.username
+
+- })
+include footer.pug

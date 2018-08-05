@@ -1,0 +1,25 @@
+include header.pug
+
+- messages = getMessages();
+- if(messages.msg){
+.alert.alert-info(role='alert' style='width:80%;margin-left:24px;')=messages.msg
+- }
+
+.container
+  .row
+    .col-md-2
+    .col-md-6
+      h1 Change Profile Details
+      form(action='/users/changeProfile' method='post')
+        p
+          label Display Name: 
+        input.form-control(type='text' name='name' value=name)
+        input(type='hidden' name="user_id" value=userid)
+        p
+          label Email: 
+        input.form-control(type='email' name='email' value=email)
+        br
+        	
+        button.btn.btn-primary(type='submit') Update Profile
+
+include footer.pug

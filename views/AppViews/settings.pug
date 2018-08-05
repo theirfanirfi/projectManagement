@@ -1,0 +1,26 @@
+include header.pug
+
+- messages = getMessages();
+- if(messages.msg){
+.alert.alert-info(role='alert' style='width:80%;margin-left:24px;')=messages.msg
+- }
+
+
+.container
+  .row
+    .col-md-2
+    .col-md-6
+      h1 Change Password
+      form(action='/users/changePassword' method='post')
+        p
+          label Current Password: 
+        input.form-control(type='password' name='current_password')
+        input(type='hidden' name="user_id" value=userid)
+        p
+          label New Password: 
+        input.form-control(type='password' name='new_password')
+        br
+        	
+        button.btn.btn-primary(type='submit') Change Password
+
+include footer.pug

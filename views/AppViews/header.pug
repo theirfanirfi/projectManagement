@@ -1,0 +1,56 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  meta(name='description' content='')
+  meta(name='author' content='')
+  title Project Management
+  // Bootstrap Core CSS
+  link(href='/vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet')
+  // MetisMenu CSS
+  link(href='/vendor/metisMenu/metisMenu.min.css' rel='stylesheet')
+  // Custom CSS
+  link(href='/dist/css/sb-admin-2.css' rel='stylesheet')
+  // Custom Fonts
+  link(href='/vendor/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css')
+  // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+  // WARNING: Respond.js doesn't work if you view the page via file://
+  //if lt IE 9
+    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+#wrapper
+  // Navigation
+  nav.navbar.navbar-default.navbar-static-top(role='navigation' style='margin-bottom: 0')
+    .navbar-header
+      button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='/') Home
+         a.btn.btn-success(href='#' onclick='createProjectModel();' class='glyphicon glyphicon-plus ')  New
+         a.btn.btn-warning(href='/users/sharedboard' style='margin:12px;') Shared Board
+    // /.navbar-header
+    ul.nav.navbar-top-links.navbar-right
+      // /.dropdown
+      li.dropdown
+        a.dropdown-toggle(data-toggle='dropdown' href='#')
+          i.fa.fa-user.fa-fw
+          i.fa.fa-caret-down
+        ul.dropdown-menu.dropdown-user
+          li
+            a(href='/users/profile')
+              i.fa.fa-user.fa-fw
+              |  User Profile
+          li
+            a(href='/users/settings')
+              i.fa.fa-gear.fa-fw
+              |  Settings
+          li.divider
+          li
+            a(href='/users/logout')
+              i.fa.fa-sign-out.fa-fw
+              |  Logout
+        // /.dropdown-user
+      // /.dropdown
